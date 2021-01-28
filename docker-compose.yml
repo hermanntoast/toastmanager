@@ -1,0 +1,11 @@
+version: "3.5"
+services:
+    toastmanager:
+        build: .
+        container_name: toastmanager
+        ports:
+            - "8000:8000"
+        environment:
+            - ROOT_PASSWORD="Muster!"
+        volumes:
+            - "./app/plugins:/root/app/plugins"
