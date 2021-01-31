@@ -1,11 +1,26 @@
 version: "3.5"
 services:
     toastmanager:
-        build: .
-        container_name: toastmanager
+        image: hermanntoast/toastmanager-webui:latest
+        container_name: toastmanager_webui
         ports:
             - "8000:8000"
+        links:
+            - database:mysql
         environment:
-            - ROOT_PASSWORD="Muster!"
+            - ROOT_PASSWORD=Muster!
+            - DEV_MODE=1
+            - SERVER_NAME=manager.hermann-toast.de
+            - SERVER_COLOR=green
+            - SERVER_PORT=8000
         volumes:
-            - "./app/plugins:/root/app/plugins"
+            - "./app:/opt/app/"
+
+    database:
+        image: mariadb:latest
+        container_name: toastmanager_database
+        environment:
+            - MYSQL_ROOT_PASSWORD=Muster!
+            - MYSQL_DATABASE=toastmanager
+        volumes:
+            - ./data/database:/var/lib/mysql

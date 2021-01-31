@@ -1,0 +1,17 @@
+name: tm_auth
+author: hermanntoast
+email: dev@hermann-toast.de
+url: http://hermann-toast.de
+version: '1.0'
+title: 'tm_auth'
+icon: question
+dependencies:
+    - !!python/object:aj.plugins.PluginDependency {
+        plugin_name: core
+    }
+resources:
+    - 'resources/js/module.es'
+    - 'resources/js/routing.es'
+    - 'resources/js/controllers/index.controller.es'
+    - 'resources/partial/index.html'
+    - 'ng:tm.auth'
