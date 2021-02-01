@@ -1,8 +1,10 @@
 import aj
 import yaml
+import hashlib
 
 from aj.auth import AuthenticationProvider, OSAuthenticationProvider, AuthenticationService
 from aj.config import UserConfigProvider
+from aj.plugins.tm_common.mysql import MySQLConnector
 from jadi import component
 
 @component(AuthenticationProvider)
@@ -12,12 +14,18 @@ class TMAuthenticationProvider(AuthenticationProvider):
 
     def __init__(self, context):
         self.context = context
+        self.mysql = MySQLConnector()
 
     def authenticate(self, username, password):
-        if username == "admin" and password == "Muster!":
-            # permissions = { "sidebar:view:/view/dashboard": "true" }
-            # return { "username": username, "password": password, "permissions": permissions }
-            return True
+        mysql_result = self.mysql.get("tm_users", ["id", "username", "firstname", "lastname", "mail", "password"], "WHERE username LIKE '" + username + "'")
+        if len(mysql_result) != 0:
+            mysql_result = mysql_result[0]
+            password = hashlib.sha512(password.encode('utf-8') + mysql_result["username"].encode('utf-8')).hexdigest()
+            if mysql_result["password"] == password:
+                del mysql_result["password"]
+                return True
+            else:
+                return False
         else:
             return False
 
@@ -29,6 +37,13 @@ class TMAuthenticationProvider(AuthenticationProvider):
 
     def get_isolation_gid(self, username):
         return None
+
+    def get_profile(self, username):
+        if username in ["root", None]:
+            return { "id": 0 }
+        mysql_result = self.mysql.get("tm_users", ["id", "username", "firstname", "lastname", "mail"], "WHERE username LIKE '" + username + "'")
+        if len(mysql_result) != 0:
+            return mysql_result[0]
 
 @component(UserConfigProvider)
 class TMConfigProvider(UserConfigProvider):

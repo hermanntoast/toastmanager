@@ -1,0 +1,37 @@
+<div class="modal-header">
+    <h4>Create new host - {{host.name}}</h4>
+</div>
+
+<div class="modal-body">
+    <label>Name</label>
+    <input ng:model="host.name" type="text" class="form-control" />
+    <label>Address</label>
+    <input ng:model="host.address" type="text" class="form-control" />
+    <label>Description</label>
+    <textarea ng:model="host.description" rows="5" class="form-control"></textarea>
+    <label>Author</label>
+    <input ng:model="identity.user" type="text" class="form-control" disabled/>
+    <label>Project</label>
+    <input ng:model="project_name" type="text" class="form-control" disabled/>
+    <label>Username</label>
+    <input ng:model="host.username" type="text" class="form-control" />
+    <label>Password</label>
+    <input ng:model="host.password" type="text" class="form-control" />
+    <label>SSH-Key</label>
+    <textarea ng:model="host.sshkey" rows="5" class="form-control"></textarea>
+    <label>HOP-Host</label>
+    <select class="form-control" ng:model="host.hophost">
+        <option value="">
+            <span>-</span>
+        </option>
+        <option ng:repeat="allhost in host_list" value="{{allhost.id}}">
+            <span>{{allhost.name}} ({{allhost.address}})</span>
+        </option>
+    </select>
+
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-danger" ng:click="close()">Close</button>
+    <button class="btn btn-success" ng:click="save()">Save</button>
+</div>

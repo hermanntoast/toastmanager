@@ -19,5 +19,8 @@ resources:
     - 'resources/js/module.es'
     - 'resources/js/routing.es'
     - 'resources/js/controllers/index.controller.es'
+    - 'resources/js/controllers/modal.controller.es'
     - 'resources/partial/index.html'
+    - 'resources/partial/addproject.modal.html'
+    - 'resources/partial/addhost.modal.html'
     - 'ng:tm.projects'

@@ -6,17 +6,24 @@ services:
         ports:
             - "8000:8000"
         links:
-            - database:mysql
+            - toastmanager_database:mysql
+        depends_on:
+            - toastmanager_database
         environment:
             - ROOT_PASSWORD=Muster!
-            - DEV_MODE=1
+            - DEV_MODE=0
             - SERVER_NAME=manager.hermann-toast.de
+            - TIMEZONE=Europe/Berlin
             - SERVER_COLOR=green
             - SERVER_PORT=8000
+            - MYSQL_HOST=toastmanager_database
+            - MYSQL_USER=root
+            - MYSQL_PASSWORD=Muster!
+            - MYSQL_DATABASE=toastmanager
         volumes:
             - "./app:/opt/app/"
 
-    database:
+    toastmanager_database:
         image: mariadb:latest
         container_name: toastmanager_database
         environment:
@@ -24,3 +31,15 @@ services:
             - MYSQL_DATABASE=toastmanager
         volumes:
             - ./data/database:/var/lib/mysql
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin:latest
+        links:
+            - toastmanager_database:mysql
+        depends_on:
+          - toastmanager_database
+        ports:
+          - '8080:80'
+        environment:
+          PMA_HOST: toastmanager_database
+          MYSQL_ROOT_PASSWORD: Muster!

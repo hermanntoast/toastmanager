@@ -1,0 +1,6 @@
+{
+    "mysql_host": "toastmanager_database",
+    "mysql_user": "root",
+    "mysql_password": "Muster!",
+    "mysql_database": "toastmanager"
+}

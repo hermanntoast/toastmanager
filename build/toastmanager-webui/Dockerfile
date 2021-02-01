@@ -20,7 +20,7 @@ RUN curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash - && \
     apt-get install -y gettext && \
     pip3 install ajenti-dev-multitool
 
-RUN pip3 install python-pam
+RUN pip3 install python-pam mysql-connector-python 
 
 COPY docker-entrypoint.sh /root/docker-entrypoint.sh
 RUN chmod +x /root/docker-entrypoint.sh

@@ -1,1 +1,92 @@
 <h1>{{title}}</h1>
+
+<div ng:show="projectToLoad == null">
+    <progress-spinner ng:show="project_list == null"></progress-spinner>
+
+    <div ng:show="project_list.length == 0">
+        No entrys found!
+    </div>
+
+    <table class="table table-hover table-striped" ng:show="project_list != null && project_list.length != 0">
+        <caption class="text-right">
+            <button class="btn btn-sm" ng:click="createProject()"><i class="fas fa-plus"></i> Add</button>
+            <button class="btn btn-sm" ng:click="loadProjects()"><i class="fas fa-sync"></i> Refresh</button>
+        </caption>
+        <tr>
+            <th class="col-md-1 text-center">#</th>
+            <th class="col-md-3">Name</th>
+            <th class="col-md-5">Description</th>
+            <th class="col-md-3"></th>
+        </tr>
+        <tr ng:repeat="project in project_list">
+            <td class="text-center" style="vertical-align:middle;">{{project.id}}</td>
+            <td style="vertical-align:middle;">{{project.name}}</td>
+            <td style="vertical-align:middle;">{{project.description}}</td>
+            <td style="vertical-align:middle;">
+                <button class="btn btn-sm btn-success" ng:click="openProject(project.id)">Open</button>
+                <button class="btn btn-sm btn-warning">Edit</button>
+                <button class="btn btn-sm btn-danger" ng:click="deleteProject(project.id)">Delete</button>
+            </td>
+        </tr>
+    </table>
+</div>
+<div ng:show="projectToLoad != null">
+    <h3>{{project.name}}</h3>
+    <table class="table table-hover table-striped">
+        <tr>
+            <th class="col-md-3">Name</th>
+            <td class="col-md-9">{{project.name}}</td>
+        <tr>
+        <tr>
+            <th>Description</th>
+            <td>{{project.description}}</td>
+        <tr>
+        <tr>
+            <th>Created</th>
+            <td>{{project.created}}</td>
+        </tr>
+        <tr>
+            <th>Author</th>
+            <td>{{project.author}}</td>
+        <tr>
+        <tr>
+            <th>Global-Username</th>
+            <td>{{project.global_username}}</td>
+        <tr>
+        <tr>
+            <th>Global-Password</th>
+            <td>{{project.global_password}}</td>
+        </tr>
+        <tr>
+            <th>Global-SSH-Key</th>
+            <td>{{project.global_sshkey}}</td>
+        </tr>
+    </table>
+    <table class="table table-hover table-striped">
+        <caption>
+            <div style="float: left">
+                <button class="btn btn-sm btn-success">Open</button>
+                <button class="btn btn-sm btn-warning">Edit</button>
+                <button class="btn btn-sm btn-danger">Delete</button>
+            </div>
+            <div style="float: right">
+                <button class="btn btn-sm" ng:click="createHost()"><i class="fas fa-plus"></i> Add</button>
+                <button class="btn btn-sm" ng:click="loadHosts(project.id)"><i class="fas fa-sync"></i> Refresh</button>
+            </div>
+        </caption>
+        <tr>
+            <th class="col-md-1 text-center">#</th>
+            <th class="col-md-3">Name</th>
+            <th class="col-md-3">Address</th>
+            <th class="col-md-4">Description</th>
+            <th class="col-md-1 text-center"><input type="checkbox" ng:click="selectAllHosts()" ng:model="hostCheckboxStatus"></th>
+        </tr>
+        <tr ng:repeat="host in host_list">
+            <td class="text-center" style="vertical-align:middle;">{{host.id}}</td>
+            <td style="vertical-align:middle;">{{host.name}}</td>
+            <td style="vertical-align:middle;">{{host.address}}</td>
+            <td style="vertical-align:middle;">{{host.description}}</td>
+            <td class="text-center" style="vertical-align:middle;"><input type="checkbox" ng:model="host.checkbox"></td>
+        </tr>
+    </table>
+</div>
